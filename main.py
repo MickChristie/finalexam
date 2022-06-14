@@ -3,7 +3,8 @@ from fastapi import FastAPI
 app1 = FastAPI()
 
 listofbuyers=[]
-
+listofproducts=[]
+boughtproduct = {}
 
 @app1.get("/")
 async def showMessage():
@@ -12,6 +13,11 @@ async def showMessage():
 @app1.get("/buyers")
 async def getBuyers1():
     return getBuyers()
+
+
+@app1.get("/products")
+async def getProducts1():
+    return getProducts()
 
 @app1.post("/buyers")
 async def addBuyer(anewbuyer: str, count: int = 1):
@@ -28,6 +34,26 @@ async def addBuyer(anewbuyer: str, count: int = 1):
 
     return {"result": result, "message": message, "current buyers": listofbuyers}
 
+@app1.post("/products")
+async def addProduct(anewproduct: str, count: int = 1):
+    result = False
+    message = "Not specified"
+    if anewprodyct in listofproducts:
+        listofproducts[anewproduct] = listofproducts[anewproduct] + count
+        result = True
+        message = f"Existing and added item(s): {anewproduct}."
+    else:
+        result = True
+        message = f"Successfully added: {anewproduct}."
+        listofproducts[anewproduct] = count
+
+    return {"result": result, "message": message, "current products": listofproducts}
+
+
+
 def getBuyers():
     return (listofbuyers)
+
+def getProducts():
+    return (listofproducts)
 
